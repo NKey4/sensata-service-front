@@ -1,0 +1,52 @@
+.header {
+  background-color: rgb(255, 255, 255);
+  height: 88px;
+  top: 0;
+  padding: 0 40px;
+  margin-top: 0;
+  width: 100%;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: inherit;
+  z-index: 2;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.headerLeft,
+.headerRight {
+  display: flex;
+  align-items: center;
+}
+
+.headerRight {
+  margin-left: 10px;
+}
+
+.header_ul {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  li {
+    cursor: pointer;
+    padding-left: 24px;
+    color: rgb(43, 46, 131);
+  }
+}
+
+.headerRight button {
+  margin-left: 10px;
+  :hover {
+    opacity: 1;
+  }
+}
+
+.createApplication {
+  margin-right: 50px;
+  cursor: pointer;
+}

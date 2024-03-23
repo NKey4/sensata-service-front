@@ -1,0 +1,32 @@
+.drawerButton {
+  background-color: rgb(48, 49, 131);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 10%;
+  cursor: pointer;
+  :hover {
+    color: black;
+  }
+}
+
+.items {
+  border: 1px solid rgb(48, 49, 131);
+  border-radius: 4%;
+  ul {
+    margin-top: 10px;
+    margin-left: 10px;
+    display: block;
+    li {
+      margin-bottom: 10px;
+      h2 {
+        color: rgb(48, 49, 131);
+      }
+    }
+  }
+}
+
+.cartTotalBlock {
+  display: flex;
+  justify-content: flex-end;
+}
