@@ -34,7 +34,11 @@ export const Header = ({ onClickCart }) => {
       <div className={styles.headerLeft}>
         <ul className={styles.header_ul}>
           <Link to="/">
-            <img src={logoSrc} alt="Sensata" width={130} height={38}></img>
+            <img
+              src={logoSrc}
+              alt="Sensata"
+              className={styles.imgResponsive}
+            ></img>
           </Link>
 
           {pages.map((page) => (
