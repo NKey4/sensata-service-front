@@ -15,12 +15,26 @@ const pages = [
 export const Header = ({ onClickCart }) => {
   const isAuth = useSelector(selectIsAuth);
   const UserData = useSelector((state) => state.auth.data);
+
+  const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Определяем, какое изображение использовать в зависимости от ширины окна
+  const logoSrc = windowWidth > 767 ? "sensata.png" : "sensata_mob.png";
   return (
     <header className={styles.header}>
       <div className={styles.headerLeft}>
         <ul className={styles.header_ul}>
           <Link to="/">
-            <img src="sensata.png" alt="Sensata" width={130} height={38}></img>
+            <img src={logoSrc} alt="Sensata" width={130} height={38}></img>
           </Link>
 
           {pages.map((page) => (
