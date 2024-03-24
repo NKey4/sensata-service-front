@@ -56,6 +56,23 @@ main {
   }
 }
 
+// Для экранов меньше 600px
+@media (max-width: 600px) {
+  body {
+    font-size: 14px;
+  }
+
+  .drawer {
+    width: 100%; // Сделать выдвижную панель на всю ширину экрана на мобильных устройствах
+  }
+
+  // Уменьшить отступы или размеры для мобильных устройств
+  .container,
+  .section {
+    padding: 10px;
+  }
+}
+
 .overlay {
   position: absolute;
   left: 0;
