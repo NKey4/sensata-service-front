@@ -37,7 +37,7 @@ export const Header = ({ onClickCart }) => {
             <img
               src={logoSrc}
               alt="Sensata"
-              className={styles.imgResponsive}
+              style={{ objectFit: "cover" }}
             ></img>
           </Link>
 
