@@ -25,7 +25,7 @@ export const Address = () => {
   const isAuth = useSelector(selectIsAuth);
 
   const dispatch = useDispatch();
-  const addresses = useSelector((state) => state.auth.data?.address);
+  const addresses = useSelector((state) => state.auth.data?.addresses);
   const {
     register,
     handleSubmit,
