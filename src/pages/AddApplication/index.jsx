@@ -40,11 +40,11 @@ export const AddApplication = () => {
   const isAuth = useSelector(selectIsAuth);
   const addresses = useSelector((state) => state.auth.data?.address);
   const navigate = useNavigate();
-
+  console.log(selectedAddress);
   const onSubmit = async () => {
     try {
       const fields = {
-        address: selectedAddress,
+        address_id: selectedAddress,
         location: selectedLocation,
         workType: selectedWorkType,
         reason: selectedReason,
@@ -71,8 +71,9 @@ export const AddApplication = () => {
           disablePortal
           options={addresses}
           sx={{ width: 300, marginTop: "22px" }}
+          getOptionLabel={(option) => "г." + option.city + ", " + option.street}
           onChange={(event, newValue) => {
-            setAddress(newValue);
+            setAddress(newValue._id);
           }}
           renderInput={(params) => <TextField {...params} label="Адрес" />}
         />

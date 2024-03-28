@@ -5,12 +5,23 @@ import { Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import styles from "./Address.module.scss";
-
+const cities = [
+  "Астана",
+  "Алматы",
+  "Караганда",
+  "Шымкент",
+  "Актобе",
+  "Актау",
+  "Павлодар",
+];
 export const Address = () => {
   const [addAddress, setAddress] = React.useState("false");
+  const [addCity, setCity] = React.useState("false");
+
   const isAuth = useSelector(selectIsAuth);
 
   const dispatch = useDispatch();
@@ -21,7 +32,8 @@ export const Address = () => {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      address: "",
+      street: "",
+      city: "Астана",
     },
     mode: "onChange",
   });
@@ -37,8 +49,9 @@ export const Address = () => {
         <>
           {addresses &&
             addresses.map((address) => {
-              console.log(addresses);
-              return <Typography variant="h5">{address}</Typography>;
+              return (
+                <Typography variant="h5">{`г. ${address.city}, ${address.street}`}</Typography>
+              );
             })}
           <Button
             sx={{
@@ -64,10 +77,21 @@ export const Address = () => {
               Добавление адреса
             </Typography>
             <form onSubmit={handleSubmit(onSubmit)}>
+              <Autocomplete
+                disablePortal
+                options={cities}
+                sx={{ width: 300, marginTop: "22px", marginBottom: "22px" }}
+                onChange={(event, newValue) => {
+                  setCity(newValue);
+                }}
+                renderInput={(register) => (
+                  <TextField {...register} label="Город" />
+                )}
+              />
               <TextField
-                error={Boolean(errors.address?.message)}
-                helperText={errors.address?.message}
-                {...register("address", { required: "Укажите адрес" })}
+                error={Boolean(errors.street?.message)}
+                helperText={errors.street?.message}
+                {...register("street", { required: "Укажите адрес" })}
                 className={styles.field}
                 label="Адрес"
                 fullWidth

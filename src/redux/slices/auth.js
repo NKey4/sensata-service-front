@@ -12,7 +12,7 @@ export const fetchSendCode = createAsyncThunk(
 export const fetchAliceCode = createAsyncThunk(
   "auth/fetchAliceCode",
   async () => {
-    const { data } = await axios.get("/sendAliceCode");
+    const { data } = await axios.get("/alice/sendCode");
     return data;
   }
 );
