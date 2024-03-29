@@ -29,15 +29,18 @@ export const Address = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
       street: "",
-      city: "Астана",
+      сity: "",
     },
     mode: "onChange",
   });
-
+  const handleCityChange = (event, newValue) => {
+    setValue("city", newValue);
+  };
   const onSubmit = async (values) => {
     setAddress(false);
     await dispatch(fetchAddAddress(values));
@@ -81,11 +84,9 @@ export const Address = () => {
                 disablePortal
                 options={cities}
                 sx={{ width: 300, marginTop: "22px", marginBottom: "22px" }}
-                onChange={(event, newValue) => {
-                  setCity(newValue);
-                }}
-                renderInput={(register) => (
-                  <TextField {...register} label="Город" />
+                onChange={handleCityChange}
+                renderInput={(params) => (
+                  <TextField {...params} label="Город" {...register("city")} />
                 )}
               />
               <TextField
