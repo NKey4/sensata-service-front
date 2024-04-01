@@ -1,30 +1,33 @@
 import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAuthMe, selectIsAuth } from "./redux/slices/auth";
+import { fetchAuthMe, selectIsAuth, selectUserData } from "./redux/slices/auth";
+import { fetchAddresses } from "./redux/slices/address.js";
+import { fetchApplications } from "./redux/slices/application.js";
 
-import { Header } from "./components/Header";
-import { Footer } from "./components/Footer";
-import { Home } from "./pages/Home";
-import { Applications } from "./pages/Applications";
-import { Registration } from "./pages/Registration";
-import { Address } from "./pages/Address";
-import { Alice } from "./pages/Alice";
-import { Login } from "./pages/Login";
-import { AddApplication } from "./pages/AddApplication";
-
-import { Drawer } from "./components/Drawer";
+import { Header, Footer, Drawer, DrawerMob } from "./components";
+import {
+  Home,
+  Applications,
+  Registration,
+  Address,
+  Alice,
+  Login,
+  AddApplication,
+} from "./pages";
 
 import "./App.scss";
-import { DrawerMob } from "./components/DrawerMob.jsx";
 
 function App() {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
-  const UserData = useSelector((state) => state.auth.data);
+  const UserData = useSelector(selectUserData);
   const [isMobile, setIsMobile] = React.useState(window.innerWidth < 600);
   React.useEffect(() => {
     dispatch(fetchAuthMe());
+    dispatch(fetchAddresses());
+    dispatch(fetchApplications());
+
     const handleResize = () => {
       setIsMobile(window.innerWidth < 600);
     };

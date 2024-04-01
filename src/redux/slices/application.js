@@ -1,24 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
-export const fetchSendCode = createAsyncThunk(
-  "auth/fetchSendCode",
-  async (params) => {
-    const { data } = await axios.post("/sendCode", params);
-    return data;
-  }
-);
-
-export const fetchCheckCode = createAsyncThunk(
-  "auth/fetchCheckCode",
-  async (params) => {
-    const { data } = await axios.post("/checkCode", params);
-    return data;
-  }
-);
-
 export const fetchApplications = createAsyncThunk(
-  "auth/fetchApplications",
+  "application/fetchApplications",
   async () => {
     const { data } = await axios.get("/applications");
     return data;
@@ -46,7 +30,6 @@ const applicationSlice = createSlice({
       });
   },
 });
+export const selectApplications = (state) => state.application.items;
 
 export const applicationReducer = applicationSlice.reducer;
-
-export const { logout } = applicationSlice.actions;

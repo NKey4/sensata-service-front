@@ -1,16 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectIsAuth } from "../../redux/slices/auth";
+import { selectIsAuth, selectUserData } from "../../redux/slices/auth";
 
 import Button from "@mui/material/Button";
-import MenuIcon from "@mui/icons-material/Menu";
 import styles from "./Header.module.scss";
 
 const pages = [
   { title: "Заявки", route: "/applications" },
   { title: "Мои адреса", route: "/address" },
   { title: "Яндекс Алиса", route: "/alice" },
+  { title: "Мои обращения", route: "/appeals" },
 ];
 
 export const Header = ({
@@ -20,8 +20,6 @@ export const Header = ({
   isMobile,
 }) => {
   const isAuth = useSelector(selectIsAuth);
-  const UserData = useSelector((state) => state.auth.data);
-  console.log(drawerOpened);
   const logoSrc = isMobile ? "sensata_mob.png" : "sensata.png";
   return (
     <header className={styles.header}>

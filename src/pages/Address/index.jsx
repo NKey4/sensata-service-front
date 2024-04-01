@@ -1,8 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAddAddress, selectIsAuth } from "../../redux/slices/auth";
-import { Navigate } from "react-router-dom";
+import { selectIsAuth } from "../../redux/slices/auth";
+import { fetchAddAddress, selectAddresses } from "../../redux/slices/address";
 import { useForm } from "react-hook-form";
+import { Navigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -23,9 +24,9 @@ export const Address = () => {
   const [addCity, setCity] = React.useState("false");
 
   const isAuth = useSelector(selectIsAuth);
+  const addresses = useSelector(selectAddresses);
 
   const dispatch = useDispatch();
-  const addresses = useSelector((state) => state.auth.data?.addresses);
   const {
     register,
     handleSubmit,
@@ -45,6 +46,10 @@ export const Address = () => {
     setAddress(false);
     await dispatch(fetchAddAddress(values));
   };
+
+  if (window.localStorage.getItem("token") && !isAuth) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div>

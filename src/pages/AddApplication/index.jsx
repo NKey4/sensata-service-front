@@ -1,5 +1,6 @@
 import React from "react";
 import { selectIsAuth } from "../../redux/slices/auth";
+import { selectAddresses } from "../../redux/slices/address";
 import { useSelector } from "react-redux";
 import { useNavigate, Navigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
@@ -38,9 +39,9 @@ export const AddApplication = () => {
   const [selectedWorkType, setWorkType] = React.useState(null);
   const [description, setDescription] = React.useState(null);
   const isAuth = useSelector(selectIsAuth);
-  const addresses = useSelector((state) => state.auth.data?.address);
+  const addresses = useSelector(selectAddresses);
   const navigate = useNavigate();
-  console.log(selectedAddress);
+
   const onSubmit = async () => {
     try {
       const fields = {

@@ -30,14 +30,6 @@ export const fetchAuthMe = createAsyncThunk("auth/fetchAuthMe", async () => {
   return data;
 });
 
-export const fetchAddAddress = createAsyncThunk(
-  "auth/fetchAddAddress",
-  async (params) => {
-    const { data } = await axios.post("/add-address", params);
-    return data;
-  }
-);
-
 const initialState = {
   data: null,
 };
@@ -87,20 +79,12 @@ const authSlice = createSlice({
       })
       .addCase(fetchCheckCode.rejected, (state) => {
         // state.data = null;
-      })
-      .addCase(fetchAddAddress.pending, (state) => {
-        // state.data = null;
-      })
-      .addCase(fetchAddAddress.fulfilled, (state, action) => {
-        state.data = action.payload;
-      })
-      .addCase(fetchAddAddress.rejected, (state) => {
-        // state.data = null;
       });
   },
 });
 
 export const selectIsAuth = (state) => Boolean(state.auth.data);
+export const selectUserData = (state) => state.auth.data;
 
 export const authReducer = authSlice.reducer;
 
