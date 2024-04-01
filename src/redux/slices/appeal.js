@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
 export const fetchAppeals = createAsyncThunk(
-  "address/fetchAppeals",
+  "appeals/fetchAppeals",
   async () => {
     const { data } = await axios.get("/appeals");
     return data;
@@ -14,7 +14,7 @@ const initialState = {
 };
 
 const appealSlice = createSlice({
-  name: "appeals",
+  name: "appeal",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -31,6 +31,6 @@ const appealSlice = createSlice({
   },
 });
 
-export const selectAppeals = (state) => state.appeals.items;
+export const selectAppeals = (state) => state.appeal.items;
 
 export const appealReducer = appealSlice.reducer;

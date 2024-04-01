@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAddAddress, selectIsAuth } from "../../redux/slices/auth";
+import { selectAppeals } from "../../redux/slices/appeal";
 
 export const Appeals = () => {
-  const appeals = useSelector((state) => state.auth.data?.appeals);
+  const appeals = useSelector(selectAppeals);
   return <div>index</div>;
 };
