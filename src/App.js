@@ -2,8 +2,9 @@ import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAuthMe, selectIsAuth, selectUserData } from "./redux/slices/auth";
-import { fetchAddresses } from "./redux/slices/address.js";
-import { fetchApplications } from "./redux/slices/application.js";
+import { fetchAddresses } from "./redux/slices/address";
+import { fetchApplications } from "./redux/slices/application";
+import { fetchAppeals } from "./redux/slices/appeal";
 
 import { Header, Footer, Drawer, DrawerMob } from "./components";
 import {
@@ -27,7 +28,7 @@ function App() {
     dispatch(fetchAuthMe());
     dispatch(fetchAddresses());
     dispatch(fetchApplications());
-
+    dispatch(fetchAppeals());
     const handleResize = () => {
       setIsMobile(window.innerWidth < 600);
     };
