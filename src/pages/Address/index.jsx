@@ -52,7 +52,7 @@ export const Address = () => {
   }
 
   return (
-    <div>
+    <div style={{ paddingTop: "20px" }}>
       {addresses && addresses.length > 0 && (
         <>
           {addresses &&
