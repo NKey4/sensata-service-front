@@ -1,0 +1,23 @@
+.appeals {
+  padding: 20px;
+
+  .appeals_list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .appeal_item {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    h3 {
+      margin-top: 0;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+}
