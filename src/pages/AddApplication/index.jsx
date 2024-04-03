@@ -52,7 +52,7 @@ export const AddApplication = () => {
         description,
         dataMessage: `Заявка по адресу: ${selectedAddress} \n\t• местонахождение - ${selectedLocation}\n\t• тип работ - ${selectedWorkType}`,
       };
-      await axios.post("/applications", fields);
+      await axios.post("/application", fields);
       navigate("/");
     } catch (error) {
       console.warn(error);
