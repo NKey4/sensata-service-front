@@ -2,11 +2,16 @@
   padding: 20px;
 
   .appeals_list {
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
-
+  .appeal_date {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
+  }
   .appeal_item {
     padding: 15px;
     border: 1px solid #ccc;
@@ -14,6 +19,7 @@
 
     h3 {
       margin-top: 0;
+      margin-bottom: 8px;
     }
 
     p {

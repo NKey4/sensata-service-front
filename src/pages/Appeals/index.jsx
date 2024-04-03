@@ -5,7 +5,7 @@ import styles from "./Appeals.module.scss";
 
 export const Appeals = () => {
   const appeals = useSelector(selectAppeals);
-  console.log(appeals);
+
   return (
     <div className={styles.appeals}>
       <h1>Обращения</h1>
@@ -14,8 +14,11 @@ export const Appeals = () => {
         {appeals.length > 0 &&
           appeals.map((appeal, index) => (
             <div key={index} className={styles.appeal_item}>
-              <h3>{appeal._id + ":" + appeal.question}</h3>
+              <h3>{appeal.question}</h3>
               <p>{appeal.answer}</p>
+              <p className={styles.appeal_date}>
+                Время обращения: {new Date(appeal.createdAt).toLocaleString()}
+              </p>
             </div>
           ))}
       </div>

@@ -10,6 +10,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import styles from "./Address.module.scss";
+
 const cities = [
   "Астана",
   "Алматы",
@@ -19,9 +20,9 @@ const cities = [
   "Актау",
   "Павлодар",
 ];
+
 export const Address = () => {
-  const [addAddress, setAddress] = React.useState("false");
-  const [addCity, setCity] = React.useState("false");
+  const [addAddress, setAddress] = React.useState(false);
 
   const isAuth = useSelector(selectIsAuth);
   const addresses = useSelector(selectAddresses);
@@ -35,13 +36,11 @@ export const Address = () => {
   } = useForm({
     defaultValues: {
       street: "",
-      сity: "",
+      city: "",
     },
     mode: "onChange",
   });
-  const handleCityChange = (event, newValue) => {
-    setValue("city", newValue);
-  };
+
   const onSubmit = async (values) => {
     setAddress(false);
     await dispatch(fetchAddAddress(values));
@@ -55,12 +54,13 @@ export const Address = () => {
     <div style={{ paddingTop: "20px" }}>
       {addresses && addresses.length > 0 && (
         <>
-          {addresses &&
-            addresses.map((address) => {
-              return (
-                <Typography variant="h5">{`г. ${address.city}, ${address.street}`}</Typography>
-              );
-            })}
+          <div className={styles.addresses_list}>
+            {addresses.map((address) => (
+              <div key={address._id} className={styles.address_item}>
+                <Typography variant="h6">{`г. ${address.city}, ${address.street}`}</Typography>
+              </div>
+            ))}
+          </div>
           <Button
             sx={{
               backgroundColor: "rgb(43,46,131)",
@@ -78,47 +78,53 @@ export const Address = () => {
         </>
       )}
 
-      {!addresses ||
-        (addAddress && (
-          <Paper classes={{ root: styles.root }}>
-            <Typography classes={{ root: styles.title }} variant="h5">
-              Добавление адреса
-            </Typography>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Autocomplete
-                disablePortal
-                options={cities}
-                sx={{ width: 300, marginTop: "22px", marginBottom: "22px" }}
-                onChange={handleCityChange}
-                renderInput={(params) => (
-                  <TextField {...params} label="Город" {...register("city")} />
-                )}
-              />
-              <TextField
-                error={Boolean(errors.street?.message)}
-                helperText={errors.street?.message}
-                {...register("street", { required: "Укажите адрес" })}
-                className={styles.field}
-                label="Адрес"
-                fullWidth
-              />
-              <Button
-                disabled={!isValid}
-                sx={{
-                  backgroundColor: "rgb(43,46,131)",
-                  marginTop: "20px",
-                  marginBottom: "20px",
-                }}
-                type="submit"
-                size="large"
-                variant="contained"
-                fullWidth
-              >
-                Добавить
-              </Button>
-            </form>
-          </Paper>
-        ))}
+      {(addresses.length == 0 || addAddress) && (
+        <Paper classes={{ root: styles.root }}>
+          <Typography classes={{ root: styles.title }} variant="h5">
+            Добавление адреса
+          </Typography>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Autocomplete
+              disablePortal
+              options={cities}
+              sx={{ width: 300, marginTop: "22px", marginBottom: "22px" }}
+              onChange={(event, newValue) => {
+                setValue("city", newValue, { shouldValidate: true });
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Город"
+                  error={Boolean(errors.city)}
+                  helperText={errors.city?.message}
+                />
+              )}
+            />
+            <TextField
+              error={Boolean(errors.street?.message)}
+              helperText={errors.street?.message}
+              {...register("street", { required: "Укажите адрес" })}
+              className={styles.field}
+              label="Адрес"
+              fullWidth
+            />
+            <Button
+              disabled={!isValid}
+              sx={{
+                backgroundColor: "rgb(43,46,131)",
+                marginTop: "20px",
+                marginBottom: "20px",
+              }}
+              type="submit"
+              size="large"
+              variant="contained"
+              fullWidth
+            >
+              Добавить
+            </Button>
+          </form>
+        </Paper>
+      )}
     </div>
   );
 };
