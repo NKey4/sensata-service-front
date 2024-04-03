@@ -24,6 +24,7 @@ export const Applications = () => {
             key={index}
             id={item.id}
             dataMessage={item.dataMessage}
+            createdAt={item.createdAt}
             description={item.description}
           />
         ))}
