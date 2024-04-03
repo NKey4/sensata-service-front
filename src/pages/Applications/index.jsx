@@ -17,22 +17,17 @@ export const Applications = () => {
 
   return (
     <div className={styles.Applications}>
-      <h1
-        style={{
-          borderBottom: "2px solid grey",
-          paddingTop: "20px",
-        }}
-      >
-        Ваши заявки
-      </h1>
-      {applications.map((item, index) => (
-        <Application
-          id={item.id}
-          key={index}
-          dataMessage={item.dataMessage}
-          description={item.description}
-        />
-      ))}
+      <h1 className={styles.Title}>Ваши заявки</h1>
+      <div className={styles.ApplicationList}>
+        {applications.map((item, index) => (
+          <Application
+            key={index}
+            id={item.id}
+            dataMessage={item.dataMessage}
+            description={item.description}
+          />
+        ))}
+      </div>
     </div>
   );
 };
