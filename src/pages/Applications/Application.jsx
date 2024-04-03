@@ -6,7 +6,9 @@ export const Application = ({ id, dataMessage, createdAt }) => {
     <div className={styles.Application}>
       <h3 className={styles.ApplicationId}>{id}</h3>
       <p className={styles.ApplicationData}>{dataMessage}</p>
-      <p className={styles.ApplicationCreatedAt}>{createdAt}</p>
+      <p className={styles.ApplicationCreatedAt}>
+        Время обращения: {new Date(createdAt).toLocaleString()}
+      </p>
     </div>
   );
 };
