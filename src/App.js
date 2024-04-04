@@ -3,7 +3,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAuthMe, selectIsAuth, selectUserData } from "./redux/slices/auth";
 import { fetchAddresses } from "./redux/slices/address";
-import { fetchApplications } from "./redux/slices/application";
+import { fetchApplications, fetchOptions } from "./redux/slices/application";
 import { fetchAppeals } from "./redux/slices/appeal";
 
 import { Header, Footer, Drawer, DrawerMob } from "./components";
@@ -30,6 +30,7 @@ function App() {
     dispatch(fetchAddresses());
     dispatch(fetchApplications());
     dispatch(fetchAppeals());
+    dispatch(fetchOptions());
     const handleResize = () => {
       setIsMobile(window.innerWidth < 600);
     };

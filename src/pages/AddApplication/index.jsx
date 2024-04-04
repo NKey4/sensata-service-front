@@ -1,18 +1,20 @@
 import React from "react";
 import { selectIsAuth } from "../../redux/slices/auth";
 import { selectAddresses } from "../../redux/slices/address";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
 import { useNavigate, Navigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 
-import axios from "../../axios";
 import "easymde/dist/easymde.min.css";
 import styles from "./AddApplication.module.scss";
-
-const location = ["Квартира", "Подъезд", "Дом", "Двор", "Паркинг"];
+import {
+  fetchAddApplication,
+  selectOptions,
+} from "../../redux/slices/application";
 
 const reason = [
   "Отсутствие воды",
@@ -21,15 +23,6 @@ const reason = [
   "Не работает домофон",
   "Грязно",
   "Неисправный лифт",
-];
-const workType = [
-  "Электричество",
-  "Плотницкие работы",
-  "Видеонаблюдение",
-  "Домофон",
-  "Клининг",
-  "Лифт",
-  "Другое",
 ];
 
 export const AddApplication = () => {
@@ -40,19 +33,22 @@ export const AddApplication = () => {
   const [description, setDescription] = React.useState(null);
   const isAuth = useSelector(selectIsAuth);
   const addresses = useSelector(selectAddresses);
+  const options = useSelector(selectOptions);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onSubmit = async () => {
     try {
       const fields = {
-        address_id: selectedAddress,
-        location: selectedLocation,
-        workType: selectedWorkType,
+        addressId: selectedAddress._id,
+        locationId: selectedLocation._id,
+        workTypeId: selectedWorkType._id,
         reason: selectedReason,
         description,
-        dataMessage: `Заявка по адресу: ${selectedAddress} \n\t• местонахождение - ${selectedLocation}\n\t• тип работ - ${selectedWorkType}`,
+        dataMessage: `Заявка по адресу: г. ${selectedAddress.city}, ${selectedAddress.street} \n\t• местонахождение - ${selectedLocation.name}\n\t• тип работ - ${selectedWorkType.name}`,
       };
-      await axios.post("/application", fields);
+      console.log(fields);
+      await dispatch(fetchAddApplication(fields));
       navigate("/");
     } catch (error) {
       console.warn(error);
@@ -74,13 +70,14 @@ export const AddApplication = () => {
           sx={{ width: 300, marginTop: "22px" }}
           getOptionLabel={(option) => "г." + option.city + ", " + option.street}
           onChange={(event, newValue) => {
-            setAddress(newValue._id);
+            setAddress(newValue);
           }}
           renderInput={(params) => <TextField {...params} label="Адрес" />}
         />
         <Autocomplete
           disablePortal
-          options={location}
+          options={options.locations}
+          getOptionLabel={(option) => option.name}
           sx={{ width: 300, marginTop: "22px" }}
           onChange={(event, newValue) => {
             setLocation(newValue);
@@ -89,7 +86,8 @@ export const AddApplication = () => {
         />
         <Autocomplete
           disablePortal
-          options={workType}
+          options={options.categories}
+          getOptionLabel={(option) => option.name}
           sx={{ width: 300, marginTop: "22px" }}
           onChange={(event, newValue) => {
             setWorkType(newValue);

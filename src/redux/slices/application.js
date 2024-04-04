@@ -9,6 +9,14 @@ export const fetchApplications = createAsyncThunk(
   }
 );
 
+export const fetchAddApplication = createAsyncThunk(
+  "application/fetchApplication",
+  async (params) => {
+    const { data } = await axios.post("/application", params);
+    return data;
+  }
+);
+
 export const fetchOptions = createAsyncThunk(
   "application/fetchOptions",
   async () => {
@@ -35,6 +43,15 @@ const applicationSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(fetchApplications.rejected, (state) => {
+        // state.items = null;
+      })
+      .addCase(fetchAddApplication.pending, (state) => {
+        // state.items = null;
+      })
+      .addCase(fetchAddApplication.fulfilled, (state, action) => {
+        state.items.push(action.payload);
+      })
+      .addCase(fetchAddApplication.rejected, (state) => {
         // state.items = null;
       })
       .addCase(fetchOptions.pending, (state) => {
