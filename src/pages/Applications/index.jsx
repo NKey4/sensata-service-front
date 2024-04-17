@@ -26,6 +26,7 @@ export const Applications = () => {
             dataMessage={item.dataMessage}
             createdAt={item.createdAt}
             description={item.description}
+            status={item.status_id.name}
           />
         ))}
       </div>

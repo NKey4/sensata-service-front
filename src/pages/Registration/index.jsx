@@ -9,11 +9,7 @@ import { Navigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 
 import InputMask from "react-input-mask";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
+import { Typography, TextField, Paper, Button, Avatar } from "@mui/material";
 
 import styles from "./Registration.module.scss";
 
@@ -29,8 +25,8 @@ export const Registration = () => {
     control,
   } = useForm({
     defaultValues: {
-      fullName: "Нурбек Кайрулинов",
-      email: "kaznurbek1@yandex.ru",
+      fullName: "",
+      email: "",
       phoneNumber: "",
       verificationCode: "",
     },

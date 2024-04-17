@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectIsAuth, selectUserData } from "../../redux/slices/auth";
+import { selectIsAuth } from "../../redux/slices/auth";
 
 import Button from "@mui/material/Button";
 import styles from "./Header.module.scss";

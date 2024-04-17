@@ -1,6 +1,9 @@
 import React from "react";
 import { logout } from "../../redux/slices/auth";
-import "./Drawer.scss";
+import styles from "./Drawer.module.scss";
+import Button from "@mui/material/Button";
+
+import "macro-css";
 import { useDispatch } from "react-redux";
 
 export const Drawer = ({ onClose, onExit, data }) => {
@@ -15,8 +18,8 @@ export const Drawer = ({ onClose, onExit, data }) => {
   };
 
   return (
-    <div className="overlay">
-      <div className="drawer">
+    <div className={styles.overlay}>
+      <div className={styles.drawer}>
         <h2 className="d-flex justify-between mb-30">
           Профиль{" "}
           <img
@@ -29,7 +32,7 @@ export const Drawer = ({ onClose, onExit, data }) => {
           />
         </h2>
 
-        <div className="items">
+        <div className={styles.items}>
           <ul>
             <li>
               <h2>Полное имя: </h2>
@@ -47,10 +50,17 @@ export const Drawer = ({ onClose, onExit, data }) => {
           </ul>
         </div>
 
-        <div className="cartTotalBlock">
-          <button className="drawerButton" onClick={onClickLogout}>
+        <div className={styles.cartTotalBlock}>
+          <Button
+            variant="contained"
+            className={styles.drawerButton}
+            sx={{
+              backgroundColor: "rgb(48,49,131)",
+            }}
+            onClick={onClickLogout}
+          >
             Выйти
-          </button>
+          </Button>
         </div>
       </div>
     </div>

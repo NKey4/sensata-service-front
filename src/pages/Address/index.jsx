@@ -4,11 +4,13 @@ import { selectIsAuth } from "../../redux/slices/auth";
 import { fetchAddAddress, selectAddresses } from "../../redux/slices/address";
 import { useForm } from "react-hook-form";
 import { Navigate } from "react-router-dom";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
+import {
+  Typography,
+  TextField,
+  Autocomplete,
+  Paper,
+  Button,
+} from "@mui/material";
 import styles from "./Address.module.scss";
 
 const cities = [
@@ -37,6 +39,7 @@ export const Address = () => {
     defaultValues: {
       street: "",
       city: "",
+      flat: "",
     },
     mode: "onChange",
   });
@@ -57,15 +60,13 @@ export const Address = () => {
           <div className={styles.addresses_list}>
             {addresses.map((address) => (
               <div key={address._id} className={styles.address_item}>
-                <Typography variant="h6">{`г. ${address.city}, ${address.street}`}</Typography>
+                <Typography variant="h6">{`г. ${address.city}, ${address.street}, кв. ${address.flat}`}</Typography>
               </div>
             ))}
           </div>
           <Button
             sx={{
               backgroundColor: "rgb(43,46,131)",
-              marginTop: "20px",
-              marginBottom: "20px",
             }}
             type="button"
             onClick={() => setAddress(true)}
@@ -83,11 +84,13 @@ export const Address = () => {
           <Typography classes={{ root: styles.title }} variant="h5">
             Добавление адреса
           </Typography>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+          >
             <Autocomplete
               disablePortal
               options={cities}
-              sx={{ width: 300, marginTop: "22px", marginBottom: "22px" }}
               onChange={(event, newValue) => {
                 setValue("city", newValue, { shouldValidate: true });
               }}
@@ -108,12 +111,25 @@ export const Address = () => {
               label="Адрес"
               fullWidth
             />
+            <TextField
+              error={Boolean(errors.flat?.message)}
+              helperText={errors.flat?.message}
+              {...register("flat", {
+                required: "Укажите номер квартиры",
+                pattern: {
+                  value: /^\d+$/,
+                  message: "Только цифры",
+                },
+              })}
+              className={styles.field}
+              label="Номер квартиры"
+              fullWidth
+              inputProps={{ inputMode: "numeric" }}
+            />
             <Button
               disabled={!isValid}
               sx={{
                 backgroundColor: "rgb(43,46,131)",
-                marginTop: "20px",
-                marginBottom: "20px",
               }}
               type="submit"
               size="large"

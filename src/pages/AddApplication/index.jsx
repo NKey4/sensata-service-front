@@ -1,13 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { selectIsAuth } from "../../redux/slices/auth";
 import { selectAddresses } from "../../redux/slices/address";
 import { useDispatch, useSelector } from "react-redux";
-
 import { useNavigate, Navigate } from "react-router-dom";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
+import { TextField, Autocomplete, Paper, Button } from "@mui/material";
 
 import "easymde/dist/easymde.min.css";
 import styles from "./AddApplication.module.scss";
@@ -26,11 +22,13 @@ const reason = [
 ];
 
 export const AddApplication = () => {
-  const [selectedLocation, setLocation] = React.useState(null);
-  const [selectedAddress, setAddress] = React.useState(null);
-  const [selectedReason, setReason] = React.useState(null);
-  const [selectedWorkType, setWorkType] = React.useState(null);
-  const [description, setDescription] = React.useState(null);
+  const [selectedOptions, setOptions] = useState({
+    location: null,
+    address: null,
+    reason: null,
+    workType: null,
+    description: null,
+  });
   const isAuth = useSelector(selectIsAuth);
   const addresses = useSelector(selectAddresses);
   const options = useSelector(selectOptions);
@@ -40,14 +38,13 @@ export const AddApplication = () => {
   const onSubmit = async () => {
     try {
       const fields = {
-        addressId: selectedAddress._id,
-        locationId: selectedLocation._id,
-        workTypeId: selectedWorkType._id,
-        reason: selectedReason,
-        description,
-        dataMessage: `Заявка по адресу: г. ${selectedAddress.city}, ${selectedAddress.street} \n\t• местонахождение - ${selectedLocation.name}\n\t• тип работ - ${selectedWorkType.name}`,
+        addressId: selectedOptions.address._id,
+        locationId: selectedOptions.location._id,
+        workTypeId: selectedOptions.workType._id,
+        reason: selectedOptions.reason,
+        description: selectedOptions.description,
+        dataMessage: `Заявка по адресу: г. ${selectedOptions.address.city}, ${selectedOptions.address.street} \n\t• местонахождение - ${selectedOptions.location.name}\n\t• тип работ - ${selectedOptions.workType.name}`,
       };
-      console.log(fields);
       await dispatch(fetchAddApplication(fields));
       navigate("/");
     } catch (error) {
@@ -70,7 +67,10 @@ export const AddApplication = () => {
           sx={{ width: 300, marginTop: "22px" }}
           getOptionLabel={(option) => "г." + option.city + ", " + option.street}
           onChange={(event, newValue) => {
-            setAddress(newValue);
+            setOptions((prev) => ({
+              ...prev,
+              address: newValue,
+            }));
           }}
           renderInput={(params) => <TextField {...params} label="Адрес" />}
         />
@@ -80,7 +80,10 @@ export const AddApplication = () => {
           getOptionLabel={(option) => option.name}
           sx={{ width: 300, marginTop: "22px" }}
           onChange={(event, newValue) => {
-            setLocation(newValue);
+            setOptions((prev) => ({
+              ...prev,
+              location: newValue,
+            }));
           }}
           renderInput={(params) => <TextField {...params} label="Место" />}
         />
@@ -90,7 +93,10 @@ export const AddApplication = () => {
           getOptionLabel={(option) => option.name}
           sx={{ width: 300, marginTop: "22px" }}
           onChange={(event, newValue) => {
-            setWorkType(newValue);
+            setOptions((prev) => ({
+              ...prev,
+              workType: newValue,
+            }));
           }}
           renderInput={(params) => <TextField {...params} label="Тип работ" />}
         />
@@ -99,7 +105,10 @@ export const AddApplication = () => {
           options={reason}
           sx={{ width: 300, marginTop: "22px" }}
           onChange={(event, newValue) => {
-            setReason(newValue);
+            setOptions((prev) => ({
+              ...prev,
+              reason: newValue,
+            }));
           }}
           renderInput={(params) => <TextField {...params} label="Причина" />}
         />
@@ -107,9 +116,14 @@ export const AddApplication = () => {
           classes={{ root: styles.description }}
           variant="standard"
           placeholder="Описание"
-          value={description}
+          value={selectedOptions.description}
           sx={{ width: 500, marginTop: "30px" }}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) =>
+            setOptions((prev) => ({
+              ...prev,
+              description: e.target.value,
+            }))
+          }
           fullWidth
         />
         <div className={styles.buttons}>

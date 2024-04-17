@@ -6,7 +6,7 @@ import { fetchAddresses } from "./redux/slices/address";
 import { fetchApplications, fetchOptions } from "./redux/slices/application";
 import { fetchAppeals } from "./redux/slices/appeal";
 
-import { Header, Footer, Drawer, DrawerMob } from "./components";
+import { Header, Footer, Drawer, DrawerMob, CustomDrawer } from "./components";
 import {
   Home,
   Applications,

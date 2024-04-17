@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectIsAuth,
@@ -6,19 +6,16 @@ import {
   fetchCheckCode,
 } from "../../redux/slices/auth";
 import { Navigate } from "react-router-dom";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useWatch } from "react-hook-form";
 
 import InputMask from "react-input-mask";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
-
+import { Typography, TextField, Paper, Button, Alert } from "@mui/material";
 import styles from "./Login.module.scss";
 
 export const Login = () => {
-  const [isAccept, setIsAccept] = React.useState(false);
-
+  const [isClick, setIsClick] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(120);
+  useEffect(() => {}, [timeLeft]);
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
   const {
@@ -28,18 +25,36 @@ export const Login = () => {
     control,
   } = useForm({
     defaultValues: {
-      email: "kaznurbek1@yandex.ru",
+      email: "",
       verificationCode: "",
     },
     mode: "onChange",
   });
+  const verificationCode = useWatch({
+    name: "verificationCode",
+    control,
+  });
 
-  const handleSendCode = async (values) => {
+  const handleSendCode = async (event) => {
+    event.preventDefault();
+    const values = {
+      email: event.target.email.value,
+    };
+    setIsClick(true);
+    let timer = 120;
+    const timerId = setInterval(() => {
+      timer--;
+      setTimeLeft(timer);
+      if (timer === 0) {
+        clearInterval(timerId);
+        setIsClick(false);
+      }
+    }, 1000);
+
     await dispatch(fetchSendCode(values));
-    setIsAccept(true);
   };
-
   const onSubmit = async (values) => {
+    console.log(values);
     const data = await dispatch(fetchCheckCode(values));
 
     if (!data.payload) {
@@ -60,7 +75,7 @@ export const Login = () => {
         Вход в аккаунт
       </Typography>
 
-      <form onSubmit={handleSubmit(handleSendCode)}>
+      <form onSubmit={isClick ? handleSubmit(onSubmit) : handleSendCode}>
         <TextField
           error={Boolean(errors.email?.message)}
           helperText={errors.email?.message}
@@ -70,56 +85,78 @@ export const Login = () => {
           label="E-Mail"
           fullWidth
         />
-
-        <Button
-          disabled={!isValid}
-          sx={{
-            backgroundColor: "rgb(43,46,131)",
-            marginTop: "20px",
-            marginBottom: "20px",
-          }}
-          type="submit"
-          size="large"
-          variant="contained"
-          fullWidth
-        >
-          Отправить код на почту
-        </Button>
-      </form>
-
-      {isAccept && (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Controller
-            name="verificationCode"
-            control={control}
-            rules={{ required: "Укажите код" }}
-            render={({ field }) => (
-              <InputMask mask="9999" maskChar=" " {...field}>
-                {(inputProps) => (
-                  <TextField
-                    {...inputProps}
-                    type="code"
-                    label="Код подтверждения"
-                    fullWidth
-                    error={Boolean(errors.verificationCode?.message)}
-                    helperText={errors.verificationCode?.message}
-                  />
-                )}
-              </InputMask>
-            )}
-          />
+        {!isClick ? (
           <Button
             disabled={!isValid}
-            sx={{ backgroundColor: "rgb(43,46,131)", marginTop: "20px" }}
-            type="submit"
-            size="large"
             variant="contained"
-            fullWidth
+            sx={{ backgroundColor: "rgb(43, 46, 131)" }}
+            classes={{ root: styles.button }}
+            type="submit"
           >
-            Авторизоваться
+            Отправить код подтверждения
           </Button>
-        </form>
-      )}
+        ) : (
+          <div style={{ display: "block", textAlign: "center" }}>
+            {timeLeft === 0 ? (
+              <a
+                style={{
+                  color: "rgb(43, 46, 131)",
+                  textAlign: "center",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                }}
+                onClick={handleSendCode}
+              >
+                Отправить повторно
+              </a>
+            ) : (
+              <Typography
+                variant="h8"
+                sx={{
+                  color: "rgb(43, 46, 131)",
+                  textAlign: "center",
+                }}
+              >
+                Отправить повторно через {Math.floor(timeLeft / 60)}:
+                {timeLeft % 60 < 10 ? "0" : ""}
+                {timeLeft % 60}
+              </Typography>
+            )}
+            <Controller
+              name="verificationCode"
+              control={control}
+              rules={{ required: "Укажите код" }}
+              render={({ field }) => (
+                <InputMask mask="9999" maskChar=" " {...field}>
+                  {(inputProps) => (
+                    <TextField
+                      {...inputProps}
+                      type="code"
+                      sx={{ mt: "20px" }}
+                      label="Код подтверждения"
+                      fullWidth
+                      error={Boolean(errors.verificationCode?.message)}
+                      helperText={errors.verificationCode?.message}
+                    />
+                  )}
+                </InputMask>
+              )}
+            />
+            <Button
+              disabled={
+                !isValid || !(verificationCode && verificationCode.length === 4)
+              }
+              sx={{ backgroundColor: "rgb(43,46,131)", marginTop: "20px" }}
+              type="submit"
+              size="large"
+              variant="contained"
+              fullWidth
+            >
+              Авторизоваться
+            </Button>
+          </div>
+        )}
+      </form>
     </Paper>
   );
 };

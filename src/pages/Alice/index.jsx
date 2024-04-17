@@ -3,12 +3,8 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAliceCode, selectIsAuth } from "../../redux/slices/auth";
 import { Navigate } from "react-router-dom";
-import TextField from "@mui/material/TextField";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
-
+import { Paper, Button, Typography } from "@mui/material";
 import styles from "./Alice.module.scss";
-import { Typography } from "@mui/material";
 
 export const Alice = () => {
   const dispatch = useDispatch();
@@ -32,11 +28,7 @@ export const Alice = () => {
       }
     }, 1000);
 
-    if (timeLeft === 0) {
-      await dispatch(fetchAliceCode());
-    } else {
-      await dispatch(fetchAliceCode());
-    }
+    await dispatch(fetchAliceCode());
   };
   return (
     <div>
