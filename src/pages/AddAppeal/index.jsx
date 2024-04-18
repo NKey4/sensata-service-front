@@ -32,8 +32,8 @@ export const AddAppeal = () => {
 
   const onSubmit = async () => {
     try {
-      await dispatch(fetchAddAppeal({ appeal }));
       navigate("/");
+      await dispatch(fetchAddAppeal({ appeal }));
     } catch (error) {
       console.warn(error);
       console.warn("Ошибка при создании обращения");
