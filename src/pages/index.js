@@ -6,3 +6,4 @@ export * from "./Applications";
 export * from "./Home";
 export * from "./Login";
 export * from "./Registration";
+export * from "./AddAppeal";

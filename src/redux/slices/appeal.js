@@ -8,6 +8,13 @@ export const fetchAppeals = createAsyncThunk(
     return data;
   }
 );
+export const fetchAddAppeal = createAsyncThunk(
+  "application/fetchAppeal",
+  async (params) => {
+    const { data } = await axios.post("/appeal", params);
+    return data;
+  }
+);
 
 const initialState = {
   items: [],
@@ -26,6 +33,15 @@ const appealSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(fetchAppeals.rejected, (state) => {
+        // state.data = null;
+      })
+      .addCase(fetchAddAppeal.pending, (state) => {
+        // state.data = null;
+      })
+      .addCase(fetchAddAppeal.fulfilled, (state, action) => {
+        state.items.push(action.payload);
+      })
+      .addCase(fetchAddAppeal.rejected, (state) => {
         // state.data = null;
       });
   },

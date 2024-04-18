@@ -16,6 +16,7 @@ import {
   Login,
   AddApplication,
   Appeals,
+  AddAppeal,
 } from "./pages";
 
 import "./App.scss";
@@ -72,6 +73,7 @@ function App() {
           <Route path="/alice" element={<Alice />} />
           <Route path="/add-application" element={<AddApplication />} />
           <Route path="/appeals" element={<Appeals />} />
+          <Route path="/add-appeal" element={<AddAppeal />} />
         </Routes>
       </main>
       {!hideForRoutes.includes(location.pathname) && <Footer></Footer>}

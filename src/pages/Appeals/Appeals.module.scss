@@ -1,6 +1,9 @@
 .appeals {
   padding: 20px;
-
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
   .appeals_list {
     margin-top: 20px;
     display: flex;
