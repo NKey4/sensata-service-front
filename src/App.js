@@ -26,18 +26,26 @@ function App() {
   const isAuth = useSelector(selectIsAuth);
   const UserData = useSelector(selectUserData);
   const [isMobile, setIsMobile] = React.useState(window.innerWidth < 600);
+
   React.useEffect(() => {
     dispatch(fetchAuthMe());
-    dispatch(fetchAddresses());
-    dispatch(fetchApplications());
-    dispatch(fetchAppeals());
-    dispatch(fetchOptions());
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 600);
-    };
-    console.log(isMobile);
-    window.addEventListener("resize", handleResize);
+  }, [dispatch]);
 
+  React.useEffect(() => {
+    if (isAuth) {
+      dispatch(fetchAddresses());
+      dispatch(fetchApplications());
+      dispatch(fetchAppeals());
+      dispatch(fetchOptions());
+    }
+  }, [isAuth, dispatch]);
+
+  const handleResize = () => {
+    setIsMobile(window.innerWidth < 600);
+  };
+
+  React.useEffect(() => {
+    window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
